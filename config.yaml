@@ -1,22 +1,18 @@
-user_info: #配布したユーザーデータを入力してください。
+user_info: # input your user data
   user_name: "user1"
   password: "user1"
 
-#send_data用の設定
 data_config:
-  serial_port: "/dev/ttyS0" #ttyS0はUARTのポートです。USBで通信する場合はttyACM0としてください。
-  baudrate: 9600 #基本的に変更しなくてもよいです。
-  timeout: 10 #Arduinoからセンサーの値をもらう際のタイムアウト。必要に応じて変更。
-  start_tag: "<DATA>" #センサーデータの開始タグ。このままにしておいてください。
-  end_tag: "</DATA>" #センサーデータの終了タグ。このままにしておいてください。
-#アップロードする際のurl。テスト中なのでこのリンクから変更がある場合があります。
+  serial_port: "/dev/ttyS0" # ttyS0: UART, ttyACM0: USB (default: UART)
+  baudrate: 9600 
+  timeout: 10 # Timeout (in seconds) waiting for a response from Raspberry Pi
+  start_tag: "<DATA>" # DO NOT CHANGE
+  end_tag: "</DATA>"   # DO NOT CHANGE
   url: "https://www.os.his.u-fukui.ac.jp/testpage2/post_sensor/upload.php"
 
 image_config:
   url: "https://www.os.his.u-fukui.ac.jp/testpage2/upload/upload.php"
-  number_of_cameras: 1
-  #接続するカメラの個数を入力してください。
-  output_directory: "images" #画像を保存するディレクトリ名です。
+  output_directory: "images" # Directory name where captured images will be saved
   delete_after_upload: False
-  #アップロード後にラズパイ側の画像を削除する場合はTrueに。デフォルトはFalse
-  #長時間放置する場合にラズパイ側に画像が残り続けるのが困るかもしれないので設定として置いています。
+  # Set to True to delete the image after uploading it.
+  # Recommended for long-term operation to prevent storage from filling up.
