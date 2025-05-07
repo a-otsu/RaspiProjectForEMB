@@ -1,0 +1,16 @@
+[UNIT]
+Descriptin=アップロード処理
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+;このシェルスクリプトのパスはユーザー名などの影響で
+;人によって異なる場合があるので確認して変更してください。
+ExecStart=/home/pi/run_scripts.sh 
+Type=oneshot
+;あなたのRaspberry Pi のユーザー名に変更してください。
+User=pi
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
