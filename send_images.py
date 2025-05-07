@@ -36,12 +36,22 @@ def send_image(image_path, config):
     except Exception as e:
         print(f"Error occurred while sending image: {e}")
 
+def get_usb_camera_count(max_devices=10):
+    count = 0
+    for i in range(max_devices):
+        cap = cv2.VideoCapture(i)
+        if cap.isOpened():
+            count += 1
+            cap.release()
+    return count
+
 def capture_photos(config):
     current_file_path = os.path.abspath(__file__)
     current_dir = os.path.dirname(current_file_path)
     output_dir_name = config["image_config"]["output_directory"]
     output_dir = os.path.join(current_dir, output_dir_name)
-    num_cameras = config["image_config"]["number_of_cameras"]
+
+    num_cameras = get_usb_camera_count()
 
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
