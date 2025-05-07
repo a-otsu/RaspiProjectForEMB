@@ -1,9 +1,5 @@
----
-marp: false
----
-
 # 環境計測基板用のRaspberry Pi セットアップガイド
-## [English guide is here](readme-en.md)
+**[English guide is here](readme-en.md)**
 
 ## githubからgitを使ってインストールする方法
 1. 次のコマンドでgit がインストールされているか確認してください

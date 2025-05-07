@@ -1,7 +1,3 @@
----
-marp: false
----
-
 # Raspberry Pi Setup Guide for Environmental Sensor Board
 
 ## How to install project using git
