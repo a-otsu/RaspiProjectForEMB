@@ -18,6 +18,12 @@
     url:https://github.com/a-otsu/RaspiProjectForEMB.git
     ディレクトリ名はオプションです。何も入れなければ`RaspiProjectForEMB`になります。
 
+3. プロジェクトのアップデート
+  pullすることでgithubにアップロードされたアップデートを簡単に適用できます。
+  ```bash
+  git pull origin master
+  ```
+
 ## 配布ファイルについて
 - **Python(.py)**
   - send_data.py

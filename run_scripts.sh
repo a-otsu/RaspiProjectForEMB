@@ -1,10 +1,10 @@
 #!/bin/bash
-if [! -e /home/pi/log.txt ] ;then
-touch /home/pi/log.txt
+if [! -e /home/pi/RaspiProjectForEMB/log.txt ] ;then
+touch /home/pi/RaspiProjectForEMB/log.txt
 fi
 
-echo "start script at $(date)" >> /home/pi/log.txt
-echo "Waiting for network..." >> /home/pi/log.txt
+echo "start script at $(date)" >> /home/pi/RaspiProjectForEMBlog.txt
+echo "Waiting for network..." >> /home/pi/RaspiProjectForEMB/log.txt
 
 #接続前にスクリプトが終了してしまう場合、MAX_RETRIESを増やす。
 MAX_RETRIES=30
@@ -15,14 +15,14 @@ until ping -c 1 google.com > /dev/null 2>&1; do
     sleep 10
     RETRY_COUNT=$((RETRY_COUNT + 1))
     if [ "$RETRY_COUNT" -ge "$MAX_RETRIES" ]; then
-        echo "Network not available after multiple attempts, exiting..." >> /home/pi/log.txt
+        echo "Network not available after multiple attempts, exiting..." >> /home/pi/RaspiProjectForEMB/log.txt
         exit 1
     fi
 done
-echo "Network is ready at $(date)" >> /home/pi/log.txt
+echo "Network is ready at $(date)" >> /home/pi/RaspiProjectForEMB/log.txt
 
-/usr/bin/python3 /home/pi/send_images.py >> /home/pi/log.txt 2>&1
+/usr/bin/python3 /home/pi/RaspiProjectForEMB/send_images.py >> /home/pi/RaspiProjectForEMB/log.txt 2>&1
 sleep 10
-/usr/bin/python3 /home/pi/send_data.py >> /home/pi/log.txt 2>&1
+/usr/bin/python3 /home/pi/RaspiProjectForEMB/send_data.py >> /home/pi/RaspiProjectForEMB/log.txt 2>&1
 
-echo "script complete at $(date)" >> /home/pi/log.txt
+echo "script complete at $(date)" >> /home/pi/RaspiProjectForEMB/log.txt
