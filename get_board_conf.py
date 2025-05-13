@@ -41,3 +41,6 @@ if __name__ == "__main__":
     send_command_to_arduino(config,command)
     time.sleep(1)
     command=data["enable_maintenance"]
+    send_command_to_arduino(config,command)
+    final_command="END"
+    send_command_to_arduino(config,final_command)
