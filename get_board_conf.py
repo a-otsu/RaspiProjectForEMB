@@ -20,7 +20,7 @@ def load_board_config(config):
     header= {"content-type": "application/json"}
     r=requests.get(url, header)
     print(r.json())
-    data=json.loads(r)
+    data=r.json()
     return data
 
 def send_command_to_arduino(config, command):
