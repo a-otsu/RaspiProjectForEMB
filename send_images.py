@@ -6,6 +6,7 @@ import datetime
 from pathlib import Path
 import requests
 import yaml
+import time
 
 def load_config(config_name="config.yaml"):
     current_file_path = os.path.abspath(__file__)
@@ -38,8 +39,7 @@ def send_image(image_path, config):
     except Exception as e:
         print(f"Error occurred while sending image: {e}")
 
-def get_camera_devices():
-    """v4l2-ctl の出力から実際のカメラデバイス（/dev/video*）の一覧を取得"""
+def list_video_devices():
     try:
         result = subprocess.run(['v4l2-ctl', '--list-devices'], stdout=subprocess.PIPE, text=True, check=True)
         lines = result.stdout.splitlines()
@@ -50,11 +50,11 @@ def get_camera_devices():
         for line in lines:
             if line.strip() == "":
                 continue
-            if not line.startswith("\t"):  # カメラ名の行
+            if not line.startswith("\t"):  # Camera name line
                 if current_device:
                     devices.append(current_device)
                     current_device = []
-            else:  # デバイスファイルの行
+            else:
                 match = re.search(r'/dev/video\d+', line)
                 if match:
                     current_device.append(match.group())
@@ -62,11 +62,34 @@ def get_camera_devices():
         if current_device:
             devices.append(current_device)
 
-        # 各カメラの最初の videoデバイスのみ使用
-        return [dev_list[0] for dev_list in devices if dev_list]
+        valid_devices = []
+        for dev_list in devices:
+            if dev_list:
+                dev_path = dev_list[0]
+                cap = cv2.VideoCapture(dev_path)
+                if cap.isOpened():
+                    valid_devices.append(dev_path)
+                    cap.release()
+
+        return valid_devices
+
     except Exception as e:
-        print(f"Failed to get camera devices: {e}")
+        print(f"[ERROR] list_video_devices failed: {e}")
         return []
+
+def get_valid_video_devices_with_retry(retries=5, delay=2):
+    """カメラデバイス取得をリトライ付きで行う"""
+    for attempt in range(1, retries + 1):
+        devices = list_video_devices()
+        if devices:
+            print(f"[INFO] Found {len(devices)} camera(s): {devices}")
+            return devices
+        else:
+            print(f"[WARN] No cameras found (attempt {attempt}/{retries}). Retrying in {delay}s...")
+            time.sleep(delay)
+    print("[ERROR] No valid cameras detected after retries.")
+    return []
+
 
 def capture_photos(config):
     current_file_path = os.path.abspath(__file__)
@@ -74,7 +97,7 @@ def capture_photos(config):
     output_dir_name = config["image_config"]["output_directory"]
     output_dir = os.path.join(current_dir, output_dir_name)
 
-    valid_devices = get_camera_devices()
+    valid_devices = get_valid_video_devices_with_retry()
     print(f"Detected cameras: {valid_devices}")
 
     if not os.path.exists(output_dir):
