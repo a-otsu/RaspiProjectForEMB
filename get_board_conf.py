@@ -1,6 +1,8 @@
 import serial
 import requests
 import yaml
+import json
+import time
 import os
 
 def load_config(config_name="config.yaml"):
@@ -18,6 +20,8 @@ def load_board_config(config):
     header= {"content-type": "application/json"}
     r=requests.get(url, header)
     print(r.json())
+    data=json.loads(r)
+    return data
 
 def send_command_to_arduino(config, command):
     """Arduinoにコマンドを送信"""
@@ -32,4 +36,8 @@ def send_command_to_arduino(config, command):
 
 if __name__ == "__main__":
     config = load_config()
-    load_board_config(config)
+    data = load_board_config(config)
+    command=data["activation_interval"]
+    send_command_to_arduino(config,command)
+    time.sleep(1)
+    command=data["enable_maintenance"]
