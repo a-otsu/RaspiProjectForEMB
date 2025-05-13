@@ -85,7 +85,6 @@ if __name__ == "__main__":
     if data_text:
         # サーバーにデータを送信
         send_data_to_database(config, data_text)
-        send_command_to_arduino(config, "END")
 
 
 
