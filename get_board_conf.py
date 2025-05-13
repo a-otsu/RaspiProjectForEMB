@@ -1,7 +1,6 @@
 import serial
 import requests
 import yaml
-import json
 import time
 import os
 
@@ -37,10 +36,11 @@ def send_command_to_arduino(config, command):
 if __name__ == "__main__":
     config = load_config()
     data = load_board_config(config)
-    command=data["activation_interval"]
-    send_command_to_arduino(config,command)
-    time.sleep(1)
     command=data["enable_maintenance"]
     send_command_to_arduino(config,command)
+    time.sleep(5)
+    command=data["activation_interval"]
+    send_command_to_arduino(config,command)
+    time.sleep(5)
     final_command="END"
     send_command_to_arduino(config,final_command)
