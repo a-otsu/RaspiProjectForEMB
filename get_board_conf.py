@@ -35,6 +35,9 @@ def send_command_to_arduino(config, command):
 
 if __name__ == "__main__":
     config = load_config()
+    first_command="START"
+    send_command_to_arduino(config,first_command)
+    time.sleep(5)
     data = load_board_config(config)
     command=data["enable_maintenance"]
     send_command_to_arduino(config,command)
