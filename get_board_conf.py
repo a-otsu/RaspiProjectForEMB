@@ -14,7 +14,7 @@ def load_config(config_name="config.yaml"):
     return config
 
 def load_board_config(config):
-    url= config["board_config"]["url"] + config["user_info"]["user_name"] + ".json"
+    url= config["board_config"]["url_base"] + config["user_info"]["user_name"] + ".json"
     header= {"content-type": "application/json"}
     r=requests.get(url, header)
     print(r.json())
