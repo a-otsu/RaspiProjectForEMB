@@ -16,3 +16,6 @@ image_config:
   delete_after_upload: False
   # Set to True to delete the image after uploading it.
   # Recommended for long-term operation to prevent storage from filling up.
+
+board_config:
+  url_base: "https://www.os.his.u-fukui.ac.jp/testpage2/board_manager/data/"

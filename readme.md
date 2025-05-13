@@ -1,6 +1,14 @@
 # 環境計測基板用のRaspberry Pi セットアップガイド
 **[English guide is here](readme-en.md)**
 
+## 開発環境
+開発環境のラズパイではOSをLite版に、ユーザー名を`pi`としています。
+したがって以下のガイドでは全てユーザー名がpiであることを前提に進めていきます。
+他の名前で設定している場合は絶対パスに埋め込まれているユーザー名を各自書き換えてください。
+書き換えが必要になるファイルは次の二つのはずです。
+1. run_scripts.sh
+2. script_sequence.service
+
 ## githubからgitを使ってインストールする方法
 1. 次のコマンドでgit がインストールされているか確認してください
     ``` bash
@@ -13,16 +21,18 @@
     ```
 2. githubからクローン
     ```bash
-    git clone [githubのレポジトリurl] [ディレクトリ名]
+    git clone [githubのレポジトリurl]
     ```
     url:https://github.com/a-otsu/RaspiProjectForEMB.git
-    ディレクトリ名はオプションです。何も入れなければ`RaspiProjectForEMB`になります。
+    他のディレクトリにクローンしても良いですが、ユーザー直下に配置すると書き換えが少なくて済みます。
+    つまり`/home/pi/`で上記のコマンドを実行するのが好ましいです。
 
 3. プロジェクトのアップデート
   pullすることでgithubにアップロードされたアップデートを簡単に適用できます。
   ```bash
   git pull origin master
   ```
+  現在すべてのファイルをgit管理しているのでそのままpullすると書き換えたユーザー名やディレクトリ設定が開発環境のものに戻ってしまいます。そのうちどうにかできたらします。
 
 ## 配布ファイルについて
 - **Python(.py)**
@@ -83,7 +93,7 @@ Wants=network-online.target
 [Service]
 ;このシェルスクリプトのパスはユーザー名などの影響で
 ;人によって異なる場合があるので確認して変更してください。
-ExecStart=/home/pi/run_scripts.sh 
+ExecStart=/home/pi/RaspiProjectForEMB/run_scripts.sh 
 Type=oneshot
 ;あなたのRaspberry Pi のユーザー名に変更してください。
 User=pi
@@ -96,6 +106,11 @@ WantedBy=multi-user.target
 追加後は次のコマンドを実行してサービスを有効化してください
 ```bash
 sudo systemctl enable script_sequence.service
+```
+
+また、この状態ではシェルスクリプトの実行権限がないので次のコマンドを実行して権限を変更してください。
+```bash
+chmod +x /home/pi/RaspiProjectForEMB/run_scripts.sh
 ```
 
 ## UART通信の有効化

@@ -24,5 +24,7 @@ echo "Network is ready at $(date)" >> /home/pi/RaspiProjectForEMB/log.txt
 /usr/bin/python3 /home/pi/RaspiProjectForEMB/send_images.py >> /home/pi/RaspiProjectForEMB/log.txt 2>&1
 sleep 10
 /usr/bin/python3 /home/pi/RaspiProjectForEMB/send_data.py >> /home/pi/RaspiProjectForEMB/log.txt 2>&1
+sleep 10
+/usr/bin/python3 /home/pi/RaspiProjectForEMB/get_board_conf.py >> /home/pi/RaspiProjectForEMB/log.txt 2>&1
 
 echo "script complete at $(date)" >> /home/pi/RaspiProjectForEMB/log.txt
