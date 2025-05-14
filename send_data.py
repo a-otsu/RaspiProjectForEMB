@@ -2,6 +2,7 @@ import serial
 import requests
 import yaml
 import os
+import time
 
 def load_config(config_name="config.yaml"):
     
@@ -78,6 +79,7 @@ if __name__ == "__main__":
 
     #Arduinoに開始フラグを送る
     send_command_to_arduino(config, "START")
+    time.sleep(5)
 
     # Arduinoにコマンドを送る
     send_command_to_arduino(config, "s")
