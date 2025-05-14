@@ -125,7 +125,7 @@ def capture_photos(config):
     cv2.destroyAllWindows()
 
 if __name__ == "__main__":
-    print("waiting for USB camera to set up (10sec)")
-    time.sleep(10)
+    print("waiting for USB camera to set up (50sec)")
+    time.sleep(50)
     config = load_config()  # 設定ファイルを読み込む
     capture_photos(config)
