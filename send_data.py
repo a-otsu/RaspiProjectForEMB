@@ -76,6 +76,9 @@ if __name__ == "__main__":
     # シリアルポート接続の確認
     check_serial_connection(config)
 
+    #Arduinoに開始フラグを送る
+    send_command_to_arduino(config, "START")
+
     # Arduinoにコマンドを送る
     send_command_to_arduino(config, "s")
 
