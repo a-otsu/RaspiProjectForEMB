@@ -39,6 +39,31 @@ def send_image(image_path, config):
     except Exception as e:
         print(f"Error occurred while sending image: {e}")
 
+def send_error_image(config):
+    url = config["image_config"]["url"]
+    user_name = config["user_info"]["user_name"]
+    password = config["user_info"]["password"]
+    delete_after_upload = config["image_config"].get("delete_after_upload", False)  # デフォルトは削除しない
+
+    current_file_path = os.path.abspath(__file__)
+    current_dir = os.path.dirname(current_file_path)
+    image_path = os.path.join(current_dir,"asset/NoCameraFound.png")
+
+    try:
+        with open(image_path, 'rb') as image_file:
+            data = {'user_name': user_name, 'pass': password}
+            files = {'image': image_file}
+            response = requests.post(url, data=data, files=files)
+            
+            if response.status_code == 200:
+                print(f"System image successfully sent!")
+                # アップロード後に削除する
+            else:
+                print(f"Failed to send image. Status code: {response.status_code}, Response: {response.text}")
+    except Exception as e:
+        print(f"Error occurred while sending image: {e}")
+
+
 def list_video_devices():
     try:
         result = subprocess.run(['v4l2-ctl', '--list-devices'], stdout=subprocess.PIPE, text=True, check=True)
@@ -77,7 +102,7 @@ def list_video_devices():
         print(f"[ERROR] list_video_devices failed: {e}")
         return []
 
-def get_valid_video_devices_with_retry(retries=10, delay=5):
+def get_valid_video_devices_with_retry(config, retries=10, delay=5):
     """カメラデバイス取得をリトライ付きで行う"""
     for attempt in range(1, retries + 1):
         devices = list_video_devices()
@@ -88,6 +113,7 @@ def get_valid_video_devices_with_retry(retries=10, delay=5):
             print(f"[WARN] No cameras found (attempt {attempt}/{retries}). Retrying in {delay}s...")
             time.sleep(delay)
     print("[ERROR] No valid cameras detected after retries.")
+    send_error_image(config)
     return []
 
 
@@ -97,7 +123,7 @@ def capture_photos(config):
     output_dir_name = config["image_config"]["output_directory"]
     output_dir = os.path.join(current_dir, output_dir_name)
 
-    valid_devices = get_valid_video_devices_with_retry()
+    valid_devices = get_valid_video_devices_with_retry(config)
     print(f"Detected cameras: {valid_devices}")
 
     if not os.path.exists(output_dir):
@@ -125,7 +151,7 @@ def capture_photos(config):
     cv2.destroyAllWindows()
 
 if __name__ == "__main__":
-    print("waiting for USB camera to set up (30sec)")
-    time.sleep(30)
+    print("waiting for USB camera to set up (60sec)")
+    time.sleep(60)
     config = load_config()  # 設定ファイルを読み込む
     capture_photos(config)

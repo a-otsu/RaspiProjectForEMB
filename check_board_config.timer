@@ -1,0 +1,13 @@
+[Unit]
+Description=スクリプト連続実行
+After=network-online.target
+Wants=network-online.target
+Conflicts=script_sequence.service
+
+[Service]
+ExecStart=/usr/bin/python3 /home/pi/RaspiProjectForEMB/get_board_conf.py
+Type=oneshot
+User=pi
+
+[Install]
+WantedBy=multi-user.target
