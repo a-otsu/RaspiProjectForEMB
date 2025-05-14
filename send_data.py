@@ -83,6 +83,7 @@ if __name__ == "__main__":
 
     # Arduinoにコマンドを送る
     send_command_to_arduino(config, "s")
+    time.sleep(5)
 
     # Arduinoからデータを取得
     data_text = read_data_from_arduino(config)
