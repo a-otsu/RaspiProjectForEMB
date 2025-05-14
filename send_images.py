@@ -77,7 +77,7 @@ def list_video_devices():
         print(f"[ERROR] list_video_devices failed: {e}")
         return []
 
-def get_valid_video_devices_with_retry(retries=5, delay=2):
+def get_valid_video_devices_with_retry(retries=10, delay=5):
     """カメラデバイス取得をリトライ付きで行う"""
     for attempt in range(1, retries + 1):
         devices = list_video_devices()
@@ -125,5 +125,7 @@ def capture_photos(config):
     cv2.destroyAllWindows()
 
 if __name__ == "__main__":
+    print("waiting for USB camera to set up (10sec)")
+    time.sleep(10)
     config = load_config()  # 設定ファイルを読み込む
     capture_photos(config)
