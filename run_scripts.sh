@@ -32,6 +32,8 @@ sleep 5
 /usr/bin/python3 send_images.py >> "$LOG_FILE" 2>&1
 echo "images.py exit" >> "$LOG_FILE"
 sleep 5
+/usr/bin/python3 send_timestamp.py >> "$LOG_FILE" 2>&1 || exit 1
+sleep 5
 /usr/bin/python3 get_board_conf.py >> "$LOG_FILE" 2>&1 || exit 1
 
 echo "script complete at $(date)" >> "$LOG_FILE"
