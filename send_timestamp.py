@@ -84,10 +84,6 @@ if __name__ == "__main__":
     send_command_to_arduino(config, make_timestamp_date())
     time.sleep(5)
 
-    #Arduinoに開始フラグを送る
-    send_command_to_arduino(config, "TIMESTAMP_TIME")
-    time.sleep(5)
-
     # Arduinoにタイムスタンプを送る
     send_command_to_arduino(config, make_timestamp_time())
     time.sleep(5)
