@@ -13,7 +13,7 @@ data_config:
 image_config:
   url: "https://www.os.his.u-fukui.ac.jp/testpage2/upload/upload.php"
   output_directory: "images" # Directory name where captured images will be saved
-  delete_after_upload: False
+  delete_after_upload: True
   # Set to True to delete the image after uploading it.
   # Recommended for long-term operation to prevent storage from filling up.
 

@@ -143,6 +143,7 @@ def capture_photos(config):
                 cv2.imwrite(filename, frame)
                 print(f"Photo saved: {filename}")
                 send_image(filename, config)
+                time.sleep(5)
             else:
                 print(f"Failed to capture photo from camera {dev_path}.")
             cap.release()
@@ -151,7 +152,5 @@ def capture_photos(config):
     cv2.destroyAllWindows()
 
 if __name__ == "__main__":
-    print("waiting for USB camera to set up (60sec)")
-    time.sleep(60)
     config = load_config()  # 設定ファイルを読み込む
     capture_photos(config)
